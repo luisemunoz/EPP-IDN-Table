@@ -9,6 +9,7 @@
 <!ENTITY RFC5730 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5730.xml">
 <!ENTITY RFC5731 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5731.xml">
 <!ENTITY RFC5890 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5890.xml">
+<!ENTITY RFC7451 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7451.xml">
 <!ENTITY I-D.narten-iana-considerations-rfc2434bis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.narten-iana-considerations-rfc2434bis.xml">
 <!ENTITY I-D.ietf-eppext-idnmap PUBLIC ''
    'http://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-eppext-idnmap.xml'>
@@ -42,7 +43,7 @@
 <?rfc inline="yes" ?>
 <!-- inline cref output -->
 <!-- end of list of popular I-D processing instructions -->
-<rfc category="std" docName="draft-gould-idn-table-00" ipr="trust200902">
+<rfc category="std" docName="draft-gould-idn-table-04" ipr="trust200902">
   <!-- category values: std, bcp, info, exp, and historic
      ipr values: full3667, noModification3667, noDerivatives3667
      you can add the attributes updates="NNNN" and obsoletes="NNNN" 
@@ -114,45 +115,20 @@
       </address>
     </author>
 
-    <author fullname="Patrik Faltstrom" initials="P.F" surname="Faltstrom">
-    <!--
-      <organization>XXX</organization>
-		-->
-		
-      <address>
-      <!--
-        <postal>
-          <street>XXX</street>
-
-          <city>XXX</city>
-
-          <region>KY</region>
-
-        </postal>
-      -->
-
-        <email>paf@frobbit.se</email>
-
-		<!--
-        <uri>XXX</uri>
-        -->
-      </address>
-    </author>
-
-    <date day="4" month="December" year="2014"/>
+    <date day="17" month="April" year="2017"/>
 
     <abstract>
       <t>This document describes an Extensible Provisioning Protocol (EPP)
       mapping for getting Internationalized Domain Name (IDN) Table 
-      information for the registration of IDN domain names, using the EPP 
+      information for the registration of IDNs, using the EPP 
       domain name mapping, and optionally with the IDN mapping extension.  
       An IDN Table defines the valid set of characters (code points) that 
       can be used in a domain name.  Code points may overlap across IDN Tables 
       and the IDN Tables supported by the servers are up to server policy.</t>
       <t>The IDN Table information can be 
-      used to validate an IDN domain name prior to registration, can be cached 
+      used to validate an IDN prior to registration, can be cached 
       by the client for pre-validation, can be used to select the best 
-      IDN Table for the domain name, and can be used to know if and what 
+      IDN Table for the IDN, and can be used to know if and what 
       IDN Table Identifier to pass in a domain create.</t>
     </abstract>
         
@@ -163,28 +139,28 @@
       <t>This document describes an extension mapping for version 1.0 of the
       <xref target="RFC5730">Extensible Provisioning Protocol (EPP)</xref>.
       This EPP mapping provides Internationalized Domain Name (IDN) Table 
-      information for the registration of IDN domain names, using the <xref target="RFC5731">EPP 
+      information for the registration of IDNs, using the <xref target="RFC5731">EPP 
       domain name mapping</xref>, and optionally with the 
       <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref>.  
       An IDN Table defines the valid set of characters (code points) that 
       can be used in a domain name.  Code points may overlap across IDN Tables 
       and the IDN Tables supported by the servers are up to server policy.  
-      This mapping provides the information clients need to register IDN domain 
-      names across a variety of servers with differing IDN policies.
+      This mapping provides the information clients need to register IDNs  
+      across a variety of servers with differing IDN policies.
       The IDN Table Mapping can be used for the following:</t>
       
 	   <t><list hangIndent="4" style="hanging">
-			<t hangText="Validate IDN Domain Name">Validate that a IDN domain name meets the server 
+			<t hangText="&quot;Validate IDN Domain Name&quot;">Validate that an IDN meets the server 
 			IDN policy.  The validation can be done prior to submitting a domain create, per <xref target="RFC5731"/>.</t>	
 		
-			<t hangText="Get IDN Tables Matching IDN Domain Name Along with Meta-Data">Since IDN Table code points may overlap, the mapping 
+			<t hangText="&quot;Get IDN Tables Matching IDN Domain Name Along with Meta-Data&quot;">Since IDN Table code points may overlap, the mapping 
 			can be used to identify the matching set of IDN Tables (language or script), along with the IDN Table meta-data.</t>		
 			
-			<t hangText="Cache IDN Table Code Points">Clients can query for the complete list of IDN Tables and 
-			can get the IDN Table meta-data and optionally the code points, based on server policy, to support 
+			<t hangText="&quot;Cache IDN Table Code Points&quot;">Clients can query for the complete list of IDN Tables and 
+			can get the IDN Table meta-data, based on server policy, to support 
 			pre-validation in the client.</t>	
 			
-			<t hangText="Get the IDN Table Identifier to Pass with a Domain Create">Each IDN Table includes 
+			<t hangText="&quot;Get the IDN Table Identifier to Pass with a Domain Create&quot;">Each IDN Table includes 
 			a server unique IDN Table Identifier that may be used as the value of the &lt;idn:table&gt; element 
 			in the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref>.  A flag indicates 
 			whether the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> is needed for the 
@@ -220,8 +196,8 @@
 
     <section anchor="attrs" title="Object Attributes">
     
-      <t>an EPP IDN Table object has attributes and associated values 
-      that can help in the registration of IDN domain names.  This 
+      <t>An EPP IDN Table object has attributes and associated values 
+      that can help in the registration of IDNs.  This 
       section describes each type in detail.  The formal syntax 
       for the attribute values described here can be found in the "Formal Syntax" section 
       of this document and in the appropriate normative references.</t>
@@ -231,26 +207,26 @@
         <t>The IDN Table Identifier is a server-defined unique value for 
         an IDN Table object.  It is represented using an &lt;idnTable:table&gt; 
         element or an &lt;idnTable:name&gt; element.  The IDN Table Identifier is used in the &lt;check&gt; 
-        and &lt;info&gt; commands and responses.  The IDN Table Identifer MAY 
+        and &lt;info&gt; commands and responses.  The IDN Table Identifier MAY 
         also be used as the value for the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> 
-        &lt;idn:table&gt; element with a domain create of an IDN domain object.</t>
+        &lt;idn:table&gt; element with a domain create of an IDN object.</t>
         
       </section> 
 
       <section anchor="domainName" title="Domain Name">
         
-        <t>Domain Names are used to enable validating the code points against 
+        <t>A Domain Name, as represented by an &lt;idnTable:domain&gt; element, is 
+        used to enable validating the code points against 
         the server IDN Tables and IDN policies and for retrieving IDN 
         Table information associated with the domain name.  The Domain Name 
         MUST be represented as either a U-label or A-label as defined in <xref target="RFC5890"/>.</t>
         
-        <t>An optional attribute "form" MAY be used to specify the representation.
-          When present, the "form" attribute MUST be set to either "aLabel" or "uLabel"
-          depending on the chosen representation for the domain name.</t>
-        
-        <t>In absence of the "form" attribute, domain names are assumed to be in A-label
-          representation.</t>
-        
+        <t>An OPTIONAL attribute "form" MAY be used to specify the representation.
+          When present, the "form" attribute MUST be set to either "aLabel" 
+          for A-label or "uLabel" for U-label, 
+          depending on the chosen representation for the domain name.  The 
+          default "form" attribute is "aLabel" for A-label.</t>
+                
       </section> 
  
     </section>
@@ -276,7 +252,7 @@
          name against the server IDN Tables and IDN policies,  
          return whether the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> 
          is needed with a domain &lt;create&gt; command, and provide the matching list of IDN Table Identifiers.  
-         This mapping is not intended to determine the availabilty of the domain name.</t> 
+         This mapping is not intended to determine the availability of the domain name.</t> 
          
          <t>In addition to the standard EPP command elements, the &lt;check&gt; command 
          MUST contain an &lt;idnTable:check&gt; element that identifies the idnTable namespace.  
@@ -289,7 +265,7 @@
 			  </list></t>
          
        <figure>
-            <preamble>Example Domain Check Form &lt;check&gt; command with three IDN domain names:</preamble>
+            <preamble>Example Domain Check Form &lt;check&gt; command with three IDNs:</preamble>
 
             <artwork><![CDATA[
 C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -328,7 +304,7 @@ C:</epp>]]></artwork>
 			    use of the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> with 
 			    a domain create of the domain name.  A value of "1" or "true" means that 
 			    the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> is required using 
-			    one of the &lt;idnTable:table&gt;.  A value of "0" or "false" means that the 
+			    one of the &lt;idnTable:table&gt; values.  A value of "0" or "false" means that the 
 			    <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> is not required.</t>
 			    
 			    <t hangText="&lt;idnTable:reason&gt;">OPTIONAL reason that the domain name is not valid.  
@@ -342,14 +318,14 @@ C:</epp>]]></artwork>
 			    that contain the server defined IDN Table Identifier, as defined in <xref target="idnTableIdentifier"/>, 
 			    that matches the code points of the &lt;idnTable:name&gt; element.  The &lt;idnTable:table&gt; MAY be used as 
 			    the value of the &lt;idn:table&gt; element in the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> 
-			    for creating the IDN domain object or MAY be used as the value of the &lt;idnTable:table&gt; element 
+			    for creating the IDN object or MAY be used as the value of the &lt;idnTable:table&gt; element 
 			    of the <xref target="tableInfoForm">Table Info Form</xref> &lt;info&gt; command, as described in <xref target="infoCommand"/>, to 
 			    retrieve more information about the IDN Table.</t>
 			  
 			  </list></t>
 
           <figure>
-            <preamble>Example Domain Check Form &lt;check&gt; response with three IDN domain names:</preamble>
+            <preamble>Example Domain Check Form &lt;check&gt; response with three IDNs:</preamble>
 
             <artwork>
 <![CDATA[
@@ -393,13 +369,13 @@ S:</epp>]]></artwork>
 
        <section anchor="tableCheckForm" title="Table Check Form">
 
-         <t>The Table Check Form is used to check the existence of a IDN Table 
+         <t>The Table Check Form is used to check the existence of an IDN Table 
          using the IDN Table Identifier represented by the &lt;idnTable:table&gt; 
          element.</t> 
          
          <t>In addition to the standard EPP command elements, the &lt;check&gt; command 
          MUST contain an &lt;idnTable:check&gt; element that identifies the idnTable namespace.  
-         The &lt;idnTable:check&gt; elements in the Table Check Form contain the following 
+         The &lt;idnTable:check&gt; element in the Table Check Form contains the following 
          child elements:</t>
 
 	        <t><list hangIndent="4" style="hanging">
@@ -500,7 +476,7 @@ S:</epp>]]></artwork>
          
 	        <t><list hangIndent="4" style="hanging">
 			    <t hangText="&lt;idnTable:domain&gt;">The domain name, as defined in <xref target="domainName"/>, to validate 
-			    against the IDN Tables and IDN policies, and to retrieve the matching IDN Table meta-data for.</t>			    			  
+			    against the IDN Tables and IDN policies, and to retrieve the matching IDN Table meta-data.</t>			    			  
 			  </list></t>
        
        <figure>
@@ -511,12 +487,12 @@ S:</epp>]]></artwork>
 C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 C:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
 C:  <command>
-C:    <check>
+C:    <info>
 C:      <idnTable:info
 C:       xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0">
 C:        <idnTable:domain>idn1.example</idnTable:domain>
 C:      </idnTable:info>
-C:    </check>
+C:    </info>
 C:    <clTRID>ABC-12345</clTRID>
 C:  </command>
 C:</epp>]]></artwork>
@@ -530,12 +506,12 @@ C:</epp>]]></artwork>
 C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 C:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
 C:  <command>
-C:    <check>
+C:    <info>
 C:      <idnTable:info
 C:       xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0">
 C:        <idnTable:domain>xn--idn1.example</idnTable:domain>
 C:      </idnTable:info>
-C:    </check>
+C:    </info>
 C:    <clTRID>ABC-12345</clTRID>
 C:  </command>
 C:</epp>]]></artwork>
@@ -558,7 +534,7 @@ C:</epp>]]></artwork>
 			    use of the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> with 
 			    a domain create of the domain name.  A value of "1" or "true" means that 
 			    the <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> is required using 
-			    one of the &lt;idnTable:table&gt;.  A value of "0" or "false" means that the 
+			    one of the &lt;idnTable:table&gt; &lt;idnTable:name&gt; values.  A value of "0" or "false" means that the 
 			    <xref target="I-D.ietf-eppext-idnmap">IDN mapping extension</xref> is not required.</t>			    			  
 			    <t hangText="&lt;idnTable:uname&gt; or &lt;idnTable:aname&gt;"> OPTIONAL U-label or A-label 
 			    form of the domain name value of the &lt;idnTable:name&gt; element in the 
@@ -666,8 +642,8 @@ S:</epp>]]></artwork>
        <section anchor="tableInfoForm" title="Table Info Form">
        
          <t>The Table Info Form is used to retrieve information associated 
-         with a IDN Table object.  The information provided meta-data about 
-         the IDN Table object along with the OPTIONAL code points.</t> 
+         with an IDN Table object.  The information provided meta-data about 
+         the IDN Table object.</t> 
          
          <t>In addition to the standard EPP command elements, the &lt;info&gt; 
          command MUST contain an &lt;idnTable:info&gt; element that identifies 
@@ -687,12 +663,12 @@ S:</epp>]]></artwork>
 C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 C:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
 C:  <command>
-C:    <check>
+C:    <info>
 C:      <idnTable:info
 C:       xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0">
 C:        <idnTable:table>CHI</idnTable:table>
 C:      </idnTable:info>
-C:    </check>
+C:    </info>
 C:    <clTRID>ABC-12345</clTRID>
 C:  </command>
 C:</epp>]]></artwork>
@@ -706,12 +682,12 @@ C:</epp>]]></artwork>
 C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 C:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
 C:  <command>
-C:    <check>
+C:    <info>
 C:      <idnTable:info
 C:       xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0">
 C:        <idnTable:table>THAI</idnTable:table>
 C:      </idnTable:info>
-C:    </check>
+C:    </info>
 C:    <clTRID>ABC-12345</clTRID>
 C:  </command>
 C:</epp>]]></artwork>
@@ -731,24 +707,12 @@ C:</epp>]]></artwork>
 			    previously negotiated with the client; an OPTIONAL "lang" attribute MAY be present 
 			    to identify the language if the negotiated value is something other than the 
 			    default value of "en" (English).</t>			    			  
+			    <t hangText="&lt;idnTable:upDate&gt;">Contains the date and time that the IDN Table was created or last updated.</t>
 			    <t hangText="&lt;idnTable:version&gt;">OPTIONAL server defined version number of the IDN Table.</t>			    			  
 			    <t hangText="&lt;idnTable:effectiveDate&gt;">OPTIONAL effective date for the IDN Table.</t>			    			  
 			    <t hangText="&lt;idnTable:variantGen&gt;">OPTIONAL boolean flag indicating that domains created using the IDN Table will 
 			    have IDN variants generated.  The management of variants is up to server policy.</t>			    			  
-			    <t hangText="&lt;idnTable:url&gt;">OPTIONAL URL for downloading the IDN Table.</t>			    			  
-			    <t hangText="&lt;idnTable:codePoint&gt;">Zero or more OPTIONAL &lt;idnTable:codePoint&gt; elements for returning 
-			    the code points of the IDN Table.  The &lt;idnTable:codePoint&gt; element contains the following child elements:</t>
-			      <t><list hangIndent="4" style="hanging">
-			        <t hangText="&lt;idnTable:point&gt; or &lt;idnTable:from&gt; and &lt;idnTable:to&gt;">Contains an individual code 
-			        point or a code point range.  The code point must be expressed in uppercase, hexadecimal, and zero padded 
-			        to a minimum of 4 digits - in other words according to the standard Unicode convention but without the prefix "U+".  
-			        The individual code points and code point ranges MUST NOT specify code points that overlap.</t>  
-					 <t hangText="&lt;idnTable:comment&gt;">Server defined code point comment.  
-					 This text MUST be represented in the response language 
-					 previously negotiated with the client; an OPTIONAL "lang" attribute MAY be present 
-					 to identify the language if the negotiated value is something other than the 
-					 default value of "en" (English).</t>			    			  
-			      </list></t>
+			    <t hangText="&lt;idnTable:url&gt;">OPTIONAL URL for downloading the IDN Table with the applicable set of code points and rules.</t>			    			  
 			  </list></t>
 
           <figure>
@@ -769,8 +733,10 @@ S:       xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0">
 S:        <idnTable:table>
 S:           <idnTable:name>CHI</idnTable:name>
 S:           <idnTable:type>language</idnTable:type>
-S:           <idnTable:description>Chinese (CHI)
+S:           <idnTable:description lang="en">Chinese (CHI)
 S:           </idnTable:description>
+S:           <idnTable:upDate>2015-02-04T09:30:00.0Z
+S:           </idnTable:upDate>
 S:           <idnTable:version>1.0</idnTable:version>
 S:           <idnTable:effectiveDate>2014-11-24
 S:           </idnTable:effectiveDate>
@@ -778,24 +744,6 @@ S:           <idnTable:variantGen>true</idnTable:variantGen>
 S:           <idnTable:url>
 S:   https://www.iana.org/domains/idn-tables/tables/tld_chi_1.0.txt
 S:           </idnTable:url>
-S:           <idnTable:codePoint>
-S:             <idnTable:point>002D</idnTable:point>
-S:             <idnTable:comment>HYPHEN-MINUS
-S:             </idnTable:comment>
-S:           </idnTable:codePoint>
-S:           <idnTable:codePoint>
-S:             <idnTable:point>0030</idnTable:point>
-S:           </idnTable:codePoint>          
-S:           <idnTable:codeRange>
-S:             <idnTable:from>3918</idnTable:from>
-S:             <idnTable:to>396E</idnTable:to>
-S:             <idnTable:comment>CJK Ideograph Extension A
-S:             </idnTable:comment>
-S:           </idnTable:codeRange>          
-S:           <idnTable:codeRange>
-S:             <idnTable:from>U+3C6E</idnTable:from>
-S:             <idnTable:to>U+6BA8</idnTable:to>
-S:           </idnTable:codeRange>          
 S:         </idnTable:table>
 S:      </idnTable:infData>
 S:    </resData>
@@ -826,6 +774,8 @@ S:        <idnTable:table>
 S:           <idnTable:name>THAI</idnTable:name>
 S:           <idnTable:type>script</idnTable:type>
 S:           <idnTable:description>Thai</idnTable:description>
+S:           <idnTable:upDate>2014-08-16T09:20:00.0Z
+S:           </idnTable:upDate>
 S:           <idnTable:version>1.0</idnTable:version>
 S:           <idnTable:effectiveDate>2014-11-24
 S:           </idnTable:effectiveDate>
@@ -833,18 +783,6 @@ S:           <idnTable:variantGen>false</idnTable:variantGen>
 S:           <idnTable:url>
 S:  https://www.iana.org/domains/idn-tables/tables/tld_thai_1.0.txt
 S:           </idnTable:url>
-S:           <idnTable:codePoint>
-S:             <idnTable:point>0E01</idnTable:point>
-S:             <idnTable:comment>THAI LETTER KO KAI
-S:             </idnTable:comment>
-S:           </idnTable:codePoint>
-S:           <idnTable:codePoint>
-S:             <idnTable:point>0E02</idnTable:point>
-S:           </idnTable:codePoint>          
-S:           <idnTable:codeRange>
-S:             <idnTable:from>0030</idnTable:from>
-S:             <idnTable:to>0039</idnTable:to>
-S:           </idnTable:codeRange>          
 S:         </idnTable:table>
 S:      </idnTable:infData>
 S:    </resData>
@@ -883,12 +821,12 @@ S:</epp>]]></artwork>
 C:<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 C:<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
 C:  <command>
-C:    <check>
+C:    <info>
 C:      <idnTable:info
 C:       xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0">
 C:        <idnTable:list/>
 C:      </idnTable:info>
-C:    </check>
+C:    </info>
 C:    <clTRID>ABC-12345</clTRID>
 C:  </command>
 C:</epp>]]></artwork>
@@ -900,11 +838,17 @@ C:</epp>]]></artwork>
          List Info Form contains the &lt;idnTable:list&gt; element that contains the following child elements:</t>
          
 	        <t><list hangIndent="4" style="hanging">
-			    <t hangText="&lt;idnTable:table&gt;">Zero or more &lt;idnTable:table&gt; elements 
-			    that contain the server defined IDN Table Identifier, as defined in <xref target="idnTableIdentifier"/>, that 
+			    <t hangText="&lt;idnTable:table&gt;">Zero or more &lt;idnTable:table&gt; elements that contain the following 
+			    child elements:</t>
+			    <t><list hangIndent="4" style="hanging">
+			      <t hangText="&lt;idnTable:name&gt;">Server defined IDN Table Identifier, as defined in <xref target="idnTableIdentifier"/>, that 
 			    is supported by the server.  The &lt;idnTable:table&gt; element value MAY be used as the value of the 
 			    &lt;idnTable:table&gt; element value in the <xref target="tableInfoForm">Table Info Form</xref> &lt;info&gt; command to retrieve 
-			    the information on the IDN Table.</t>			    			  
+			    the information on the IDN Table.</t>
+			      <t hangText="&lt;idnTable:upDate&gt;">Contains the date and time that the IDN Table was created or last updated.  This element 
+			      can be used to determine whether a client-side cache needs to be refreshed for the IDN Table using the <xref target="tableInfoForm">Table Info Form</xref>.</t>
+			    </list></t>
+			   	    			  
 			  </list></t>
 
           <figure>
@@ -923,9 +867,21 @@ S:    <resData>
 S:      <idnTable:infData
 S:       xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0">
 S:        <idnTable:list>
-S:           <idnTable:table>CHI</idnTable:table>
-S:           <idnTable:table>JPN</idnTable:table>
-S:           <idnTable:table>THAI</idnTable:table>
+S:           <idnTable:table>
+S:              <idnTable:name>CHI</idnTable:name>
+S:              <idnTable:upDate>2015-02-04T09:30:00.0Z
+S:              </idnTable:upDate>
+S:           </idnTable:table>
+S:           <idnTable:table>
+S:              <idnTable:name>JPN</idnTable:name>
+S:              <idnTable:upDate>2015-01-01T09:40:00.0Z
+S:              </idnTable:upDate>
+S:           </idnTable:table>
+S:           <idnTable:table>
+S:              <idnTable:name>THAI</idnTable:name>
+S:              <idnTable:upDate>2014-08-16T09:20:00.0Z
+S:              </idnTable:upDate>
+S:           </idnTable:table>
 S:         </idnTable:list>
 S:      </idnTable:infData>
 S:    </resData>
@@ -1011,7 +967,7 @@ S:</epp>]]></artwork>
 
     <section anchor="syntax" title="Formal Syntax">
     
-      <t>One schema is presented here that is the EPP Allocation Token Extension
+      <t>One schema is presented here that is the EPP IDN Table Mapping
       schema.</t>
       
       <t>The formal
@@ -1020,19 +976,18 @@ S:</epp>]]></artwork>
       BEGIN and END tags are not part of the schema; they are used to note the
       beginning and ending of the schema for URI registration purposes.</t>
 
-    <section title="Allocation Token Extension Schema">
+    <section title="IDN Table Mapping Schema">
 
       <figure>
         <artwork><![CDATA[
 BEGIN
 <?xml version="1.0" encoding="UTF-8"?>
-
 <schema targetNamespace="urn:ietf:params:xml:ns:idnTable-1.0"
   xmlns:idnTable="urn:ietf:params:xml:ns:idnTable-1.0"
-  xmlns:eppcom="urn:ietf:params:xml:ns:eppcom-1.0"
+  xmlns:eppcom="urn:ietf:params:xml:ns:eppcom-1.0" 
   xmlns="http://www.w3.org/2001/XMLSchema"
   elementFormDefault="qualified">
-  
+
   <annotation>
     <documentation>
       Extensible Provisioning Protocol v1.0
@@ -1041,8 +996,8 @@ BEGIN
   </annotation>
 
   <!-- imports -->
-  <import namespace="urn:ietf:params:xml:ns:eppcom-1.0"
-       schemaLocation="eppcom-1.0.xsd"/>
+  <import namespace="urn:ietf:params:xml:ns:eppcom-1.0" 
+    schemaLocation="eppcom-1.0.xsd"/>
 
   <!-- 
   Child elements found in EPP commands.  
@@ -1051,15 +1006,38 @@ BEGIN
   <element name="info" type="idnTable:infoType"/>
 
   <!-- 
+   Form of the domain name.
+   -->
+  <simpleType name="domainFormType">
+    <restriction base="token">
+      <enumeration value="aLabel"/>
+      <enumeration value="uLabel"/>
+    </restriction>
+  </simpleType>
+
+  <!--
+   Domain label element.
+  -->
+  <complexType name="domainLabelType">
+    <simpleContent>
+      <extension base="eppcom:labelType">
+        <attribute name="form" type="idnTable:domainFormType"
+          default="aLabel"/>
+      </extension>
+    </simpleContent>
+  </complexType>
+  
+
+  <!-- 
   Child elements of check command.  
   -->
   <complexType name="checkType">
     <sequence>
       <choice>
-        <element name="table" type="eppcom:minTokenType"
-           maxOccurs="unbounded"/>
-        <element name="domain" type="eppcom:labelType" 
-           maxOccurs="unbounded"/>
+        <element name="table" type="eppcom:minTokenType" 
+          maxOccurs="unbounded"/>
+        <element name="domain" type="idnTable:domainLabelType" 
+          maxOccurs="unbounded"/>
       </choice>
     </sequence>
   </complexType>
@@ -1072,17 +1050,17 @@ BEGIN
     <sequence>
       <choice>
         <element name="table" type="eppcom:minTokenType"/>
-        <element name="domain" type="eppcom:labelType"/>
+        <element name="domain" type="idnTable:domainLabelType"/>
         <element name="list"/>
       </choice>
     </sequence>
   </complexType>
-   
-   
+
+
   <!-- 
   Child response elements.  
   -->
-  <element name="chkData" type="idnTable:chkDataType"/>    
+  <element name="chkData" type="idnTable:chkDataType"/>
   <element name="infData" type="idnTable:infDataType"/>
 
   <!-- 
@@ -1091,10 +1069,10 @@ BEGIN
   <complexType name="chkDataType">
     <sequence>
       <choice>
-        <element name="table" type="idnTable:chkTableType"
-           maxOccurs="unbounded"/>
+        <element name="table" type="idnTable:chkTableType" 
+          maxOccurs="unbounded"/>
         <element name="domain" type="idnTable:chkDomainType" 
-           maxOccurs="unbounded"/>
+          maxOccurs="unbounded"/>
       </choice>
     </sequence>
   </complexType>
@@ -1105,27 +1083,24 @@ BEGIN
   <complexType name="chkTableType">
     <simpleContent>
       <extension base="eppcom:minTokenType">
-        <attribute name="exists" type="boolean"
-         use="required"/>
+        <attribute name="exists" type="boolean" use="required"/>
       </extension>
     </simpleContent>
   </complexType>
 
-  
+
   <!-- 
   Domain name check response element  
   -->
   <complexType name="domainNameType">
     <simpleContent>
       <extension base="eppcom:labelType">
-        <attribute name="valid" type="boolean"
-         use="required"/>
-        <attribute name="idnmap" type="boolean"
-         default="true"/>
+        <attribute name="valid" type="boolean" use="required"/>
+        <attribute name="idnmap" type="boolean" default="true"/>
       </extension>
     </simpleContent>
   </complexType>
-  
+
   <!-- 
   Domain check response element  
   -->
@@ -1135,11 +1110,11 @@ BEGIN
       <choice>
         <element name="reason" type="eppcom:reasonType"/>
         <element name="table" type="eppcom:minTokenType" 
-        maxOccurs="unbounded"/>
+          maxOccurs="unbounded"/>
       </choice>
     </sequence>
   </complexType>
-  
+
 
   <!-- 
   Child elements of info response.  
@@ -1147,48 +1122,22 @@ BEGIN
   <complexType name="infDataType">
     <sequence>
       <choice>
-        <element name="table" 
-          type="idnTable:infTableType"/>
-        <element name="domain" 
-          type="idnTable:infDomainType"/>
-        <element name="list" 
-          type="idnTable:infListType"/>
+        <element name="table" type="idnTable:infTableType"/>
+        <element name="domain" type="idnTable:infDomainType"/>
+        <element name="list" type="idnTable:infListType"/>
       </choice>
     </sequence>
   </complexType>
-   
+
   <!-- 
   Table types  
   -->
   <simpleType name="tableTypeEnumType">
-     <restriction base="token">
-        <enumeration value="language"/>
-        <enumeration value="script"/>
-     </restriction>
+    <restriction base="token">
+      <enumeration value="language"/>
+      <enumeration value="script"/>
+    </restriction>
   </simpleType>
-
-  <!-- 
-  Table IDN code point.
-  -->
-  <complexType name="codePointType">
-    <sequence>
-      <element name="point" type="token"/>
-      <element name="comment" type="idnTable:descriptionType" 
-      minOccurs="0"/>
-    </sequence>
-  </complexType>  
-
-  <!-- 
-  Table IDN code point range.
-  -->
-  <complexType name="codeRangeType">
-    <sequence>
-      <element name="from" type="token"/>
-      <element name="to" type="token"/>
-      <element name="comment" type="idnTable:descriptionType" 
-      minOccurs="0"/>
-    </sequence>
-  </complexType>  
 
   <complexType name="descriptionType">
     <simpleContent>
@@ -1197,8 +1146,8 @@ BEGIN
       </extension>
     </simpleContent>
   </complexType>
-   
-   
+
+
   <!-- 
   Table info response information
   -->
@@ -1207,17 +1156,14 @@ BEGIN
       <element name="name" type="eppcom:minTokenType"/>
       <element name="type" type="idnTable:tableTypeEnumType"/>
       <element name="description" type="idnTable:descriptionType"/>
+      <element name="upDate" type="dateTime"/>
       <element name="version" type="token" minOccurs="0"/>
       <element name="effectiveDate" type="date" minOccurs="0"/>
       <element name="variantGen" type="boolean" minOccurs="0"/>
-      <element name="url"  type="anyURI" minOccurs="0"/>
-      <choice minOccurs="0" maxOccurs="unbounded">
-        <element name="codePoint" type="idnTable:codePointType"/>
-        <element name="codeRange" type="idnTable:codeRangeType"/>
-      </choice>
+      <element name="url" type="anyURI" minOccurs="0"/>
     </sequence>
   </complexType>
-      
+
   <!-- 
   Domain info response information
   -->
@@ -1225,14 +1171,14 @@ BEGIN
     <sequence>
       <element name="name" type="idnTable:domainNameType"/>
       <choice minOccurs="0">
-         <element name="uname" type="eppcom:labelType"/>
-         <element name="aname" type="eppcom:labelType"/>
+        <element name="uname" type="eppcom:labelType"/>
+        <element name="aname" type="eppcom:labelType"/>
       </choice>
-      <element name="table" type="idnTable:infDomainTableType"
-         minOccurs="0" maxOccurs="unbounded"/>
+      <element name="table" type="idnTable:infDomainTableType" 
+        minOccurs="0" maxOccurs="unbounded"/>
     </sequence>
   </complexType>
-  
+
   <!-- 
   Domain table info response information
   -->
@@ -1244,19 +1190,29 @@ BEGIN
       <element name="variantGen" type="boolean" minOccurs="0"/>
     </sequence>
   </complexType>
-  
+
 
   <!-- 
   Table list info response information.
   -->
   <complexType name="infListType">
     <sequence>
-      <element name="table" type="eppcom:minTokenType"
-         minOccurs="0" maxOccurs="unbounded"/>
+      <element name="table" type="idnTable:infListTableType" 
+        minOccurs="0" maxOccurs="unbounded"/>
     </sequence>
   </complexType>
-   
-<!-- End of schema.-->   
+  
+  <!--
+  Table elements in list info form.
+  -->
+  <complexType name="infListTableType">
+    <sequence>
+      <element name="name" type="eppcom:minTokenType"/>
+      <element name="upDate" type="dateTime"/>
+    </sequence>
+  </complexType>
+
+  <!-- End of schema.-->
 </schema>
 END]]></artwork>
       </figure>
@@ -1265,22 +1221,64 @@ END]]></artwork>
    
     
     <section anchor="IANA" title="IANA Considerations">
+    
+    	<section anchor="IANA-XML-Namespace" title="XML Namespace">
          <t>
              This document uses URNs to describe XML namespaces and XML schemas
              conforming to a registry mechanism described in <xref target="RFC3688"/>.
-             One URI assignment must be completed by the IANA.
+             The following URI assignment is requested of IANA: 
          </t>
-
-         <t>Registration request for the idnTable namespace:</t>
-         
-         <t>Registration request for the XML schema:</t>
-         
+                  
          <t>URI: urn:ietf:params:xml:ns:idnTable-1.0</t>
          
-         <t>Registrant Contact: IESG</t>
+         <t>Registrant Contact: See the "Author's Address" section of this document.</t>
           
          <t>XML: See the "Formal Syntax" section of this document.</t>
+         
+       </section>
+       
+       <section anchor="EPP-Extension-Registry" title="EPP Extension Registry">
+       
+       	<t>
+   The EPP extension described in this document should be registered by
+   the IANA in the EPP Extension Registry described in <xref target="RFC7451"/>.  The
+   details of the registration are as follows:
+   </t>
+
+   <t>
+   Name of Extension: &quot;Extensible Provisioning Protocol (EPP) Internationalized Domain Name (IDN) Table Mapping&quot;
+   </t>
+   
+   <t>
+   Document status: Standards Track
+   </t>
+   
+   <t>
+   Reference: (insert reference to RFC version of this document)
+   </t>
+
+   <t>
+   Registrant Name and Email Address: IESG, &lt;iesg@ietf.org&gt;
+   </t>
+  
+   <t>
+   TLDs: Any
+   </t>
  
+   <t>
+   IPR Disclosure: None
+   </t>
+
+   <t>
+   Status: Active
+   </t>
+
+   <t>
+   Notes: None
+   </t>
+       
+       </section>
+     
     </section>
 
 
@@ -1323,14 +1321,33 @@ END]]></artwork>
 
       &RFC5890;      
 
+      &RFC7451;      
+
       &I-D.ietf-eppext-idnmap;
 
     </references>
     
    <section title="Change History">
-    <section title="Version 00" anchor="version-00">
+    <section title="Change from 00 to 01" anchor="version-00-to-01">
       <t><list style="numbers">
-        <t>Initial version.</t>
+        <t>Amended XML Namespace section of IANA Considerations, added EPP Extension Registry section.</t>
+      </list></t>
+    </section>
+    <section title="Change from 01 to 02" anchor="version-01-to-02">
+      <t><list style="numbers">
+        <t>Removed support for returning the idnTable:codePoint and idnTable:codeRange elements in the table info response based 
+        on the feedback at the Registration Operations Workshop (ROW), held on March 22, 2015, prior to IETF-92.</t>
+        <t>Fixed info command samples that referenced the &lt;check&gt; element instead of the &lt;info&gt; element.</t>
+      </list></t>
+    </section>
+    <section title="Change from 02 to 03" anchor="version-02-to-03">
+      <t><list style="numbers">
+        <t>Ping update.</t>
+      </list></t>
+    </section>
+    <section title="Change from 03 to 04" anchor="version-03-to-04">
+      <t><list style="numbers">
+        <t>Ping update.</t>
       </list></t>
     </section>
    </section>
